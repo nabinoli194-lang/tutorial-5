@@ -1,0 +1,55 @@
+
+public class LibraryShelves {
+
+    // Place ISBN in first empty slot, return [shelf, slot] or [-1,-1] if full
+    public static int[] placeOnShelf(String[][] shelves, String isbn) {
+        for (int i = 0; i < shelves.length; i++) {
+            for (int j = 0; j < shelves[i].length; j++) {
+                if (shelves[i][j].equals("")) {
+                    shelves[i][j] = isbn;
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return new int[]{-1, -1}; // full
+    }
+
+    // Print shelves row by row
+    public static void printShelves(String[][] shelves) {
+        for (int i = 0; i < shelves.length; i++) {
+            System.out.print("Shelf " + (i + 1) + ": ");
+            for (int j = 0; j < shelves[i].length; j++) {
+                String slot = shelves[i][j];
+                if (slot.equals("")) {
+                    System.out.print("[empty] ");
+                } else {
+                    System.out.print("[" + slot + "] ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    // Demo
+    public static void main(String[] args) {
+        // Initialize 5 shelves × 10 slots
+        String[][] shelves = new String[5][10];
+        for (int i = 0; i < shelves.length; i++) {
+            for (int j = 0; j < shelves[i].length; j++) {
+                shelves[i][j] = "";
+            }
+        }
+
+        // Place some books
+        int[] pos1 = placeOnShelf(shelves, "978-3-16-148410-0"); // Great Gatsby
+        int[] pos2 = placeOnShelf(shelves, "978-0-14-143960-0"); // Tale of Two Cities
+        int[] pos3 = placeOnShelf(shelves, "978-0-7475-3269-9"); // Harry Potter
+
+        System.out.println("Placed at shelf " + pos1[0] + ", slot " + pos1[1]);
+        System.out.println("Placed at shelf " + pos2[0] + ", slot " + pos2[1]);
+        System.out.println("Placed at shelf " + pos3[0] + ", slot " + pos3[1]);
+
+        // Print layout
+        printShelves(shelves);
+    }
+}
