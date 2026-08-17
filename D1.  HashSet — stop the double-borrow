@@ -1,0 +1,37 @@
+import java.util.HashSet;
+
+public class Library {
+    // ✅ HashSet to track borrowed ISBNs
+    private HashSet<String> currentlyBorrowed = new HashSet<>();
+
+    // ✅ Borrow method
+    public boolean borrow(String isbn) {
+        if (currentlyBorrowed.contains(isbn)) {
+            return false; // already borrowed
+        }
+        currentlyBorrowed.add(isbn);
+        return true;
+    }
+
+    // ✅ Return method
+    public void returnBook(String isbn) {
+        currentlyBorrowed.remove(isbn);
+    }
+
+    public static void main(String[] args) {
+        Library lib = new Library();
+
+        // Normal borrow
+        System.out.println("Borrow 978-3-16-148410-0: " + lib.borrow("978-3-16-148410-0"));
+
+        // Attempted double borrow
+        System.out.println("Borrow again 978-3-16-148410-0: " + lib.borrow("978-3-16-148410-0"));
+
+        // Return
+        lib.returnBook("978-3-16-148410-0");
+        System.out.println("Returned 978-3-16-148410-0");
+
+        // Borrow again after return
+        System.out.println("Borrow after return 978-3-16-148410-0: " + lib.borrow("978-3-16-148410-0"));
+    }
+}
