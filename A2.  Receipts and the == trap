@@ -1,0 +1,42 @@
+import java.lang.StringBuilder;
+
+class LibraryItem {
+    private String isbn;
+    private String title;
+
+    public LibraryItem(String isbn, String title) {
+        this.isbn = isbn;
+        this.title = title;
+    }
+
+    public String getIsbn() { return isbn; }
+    public String getTitle() { return title; }
+}
+
+public class ReceiptDemo {
+
+    // ✅ Build receipt text using StringBuilder
+    public static String generateReceiptText(String memberName, LibraryItem item) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Library Receipt\n");
+        sb.append("----------------------------\n");
+        sb.append("Member: ").append(memberName).append("\n");
+        sb.append("Title: ").append(item.getTitle()).append("\n");
+        sb.append("Due Date: [placeholder]\n");
+        sb.append("----------------------------\n");
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        // Demo receipt
+        LibraryItem book = new LibraryItem("978-3-16-148410-0", "Data Structures");
+        System.out.println(generateReceiptText("Nabin", book));
+
+        // ✅ ISBN comparison demo
+        String isbn1 = "978-3-16-148410-0";
+        String isbn2 = new String("978-3-16-148410-0"); // force a different object
+
+        System.out.println("isbn1 == isbn2 ? " + (isbn1 == isbn2));
+        System.out.println("isbn1.equals(isbn2) ? " + isbn1.equals(isbn2));
+    }
+}
