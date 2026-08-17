@@ -1,0 +1,42 @@
+
+public class TitleUtil {
+    public static String sanitizeTitle(String raw) {
+        if (raw == null) return null;
+
+        // Step 1: Trim leading/trailing whitespace
+        String trimmed = raw.trim();
+
+        // Step 2: Split by space (multiple spaces → empty tokens)
+        String[] parts = trimmed.split(" ");
+
+        StringBuilder sb = new StringBuilder();
+
+        // Step 3: Loop through words, skip empty ones, build Title Case
+        for (String word : parts) {
+            if (word.length() == 0) continue; // skip empty tokens
+
+            String first = word.substring(0, 1).toUpperCase();
+            String rest = "";
+            if (word.length() > 1) {
+                rest = word.substring(1).toLowerCase();
+            }
+
+            sb.append(first).append(rest).append(" ");
+        }
+
+        // Remove trailing space
+        return sb.toString().trim();
+    }
+
+    // Test cases
+    public static void main(String[] args) {
+        System.out.println(sanitizeTitle("   the   GREAT gatsby "));
+        // → "The Great Gatsby"
+
+        System.out.println(sanitizeTitle("   a   TALE   of   TWO   CITIES   "));
+        // → "A Tale Of Two Cities"
+
+        System.out.println(sanitizeTitle("   hARRY    potTER   and   the   PHILOSOPHER's   STONE   "));
+        // → "Harry Potter And The Philosopher's Stone"
+    }
+}
