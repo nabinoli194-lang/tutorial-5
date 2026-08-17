@@ -1,0 +1,45 @@
+import java.util.HashMap;
+
+class Book {
+    private String isbn;
+    private String title;
+
+    public Book(String isbn, String title) {
+        this.isbn = isbn;
+        this.title = title;
+    }
+
+    public String getIsbn() { return isbn; }
+    public String getTitle() { return title; }
+
+    @Override
+    public String toString() {
+        return "[" + isbn + "] " + title;
+    }
+}
+
+public class Library {
+    // ✅ HashMap for direct ISBN → Book mapping
+    private HashMap<String, Book> isbnIndex = new HashMap<>();
+
+    // Add book to index
+    public void addBook(Book book) {
+        isbnIndex.put(book.getIsbn(), book);
+    }
+
+    // ✅ Find by ISBN using map.get()
+    public Book findByIsbn(String isbn) {
+        return isbnIndex.get(isbn); // returns Book or null if not found
+    }
+
+    public static void main(String[] args) {
+        Library lib = new Library();
+
+        lib.addBook(new Book("978-3-16-148410-0", "Data Structures"));
+        lib.addBook(new Book("978-0-14-143960-0", "Networking Basics"));
+
+        System.out.println("Lookup 978-3-16-148410-0 → " + lib.findByIsbn("978-3-16-148410-0"));
+        System.out.println("Lookup 978-0-14-143960-0 → " + lib.findByIsbn("978-0-14-143960-0"));
+        System.out.println("Lookup 000-0-00-000000-0 → " + lib.findByIsbn("000-0-00-000000-0")); // null
+    }
+}
