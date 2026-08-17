@@ -1,0 +1,70 @@
+public class BookDemo {
+    public static void main(String[] args) {
+        Book[] books = {
+                new Book("The Great Gatsby", 12.99),
+                new Book("Tale of Two Cities", 9.50),
+                new Book("Harry Potter", 20.00),
+                new Book("Moby Dick", 15.75),
+                new Book("Pride and Prejudice", 18.25)
+        };
+
+        // Print original order
+        printBooks(books);
+
+        // Find most expensive
+        Book expensive = findMostExpensive(books);
+        System.out.println("\nMost expensive: " + expensive.getTitle() +
+                " ($" + expensive.getPrice() + ")");
+
+        // Reverse in place
+        reverseInPlace(books);
+
+        // Print reversed order
+        System.out.println("\nAfter reverseInPlace:");
+        printBooks(books);
+    }
+
+    // Utility: print all books
+    private static void printBooks(Book[] books) {
+        for (Book b : books) {
+            System.out.println(b.getTitle() + " ($" + b.getPrice() + ")");
+        }
+    }
+
+    // Method 1: find most expensive book
+    public static Book findMostExpensive(Book[] books) {
+        if (books == null || books.length == 0) return null;
+        Book maxBook = books[0];
+        for (int i = 1; i < books.length; i++) {
+            if (books[i].getPrice() > maxBook.getPrice()) {
+                maxBook = books[i];
+            }
+        }
+        return maxBook;
+    }
+
+    // Method 2: reverse array in place
+    public static void reverseInPlace(Book[] books) {
+        if (books == null) return;
+        int left = 0, right = books.length - 1;
+        while (left < right) {
+            Book temp = books[left];
+            books[left] = books[right];
+            books[right] = temp;
+            left++;
+            right--;
+        }
+    }
+}
+
+// Simple Book class
+class Book {
+    private String title;
+    private double price;
+    public Book(String title, double price) {
+        this.title = title;
+        this.price = price;
+    }
+    public String getTitle() { return title; }
+    public double getPrice() { return price; }
+}
