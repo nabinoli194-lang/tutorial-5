@@ -1,0 +1,99 @@
+import java.util.ArrayList;
+
+class LibraryItem {
+    private String isbn;
+    private String title;
+    private double price;
+
+    public LibraryItem(String isbn, String title, double price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.price = price;
+    }
+
+    public String getIsbn() { return isbn; }
+    public String getTitle() { return title; }
+    public double getPrice() { return price; }
+
+    @Override
+    public String toString() {
+        return "[" + isbn + " - " + title + " - $" + price + "]";
+    }
+}
+
+public class LibraryCatalogue {
+    private ArrayList<LibraryItem> catalogue = new ArrayList<>();
+    private ArrayList<LibraryItem> removalHistory = new ArrayList<>(); // ✅ second list
+
+    public void addItem(LibraryItem item) {
+        catalogue.add(item);
+    }
+
+    // ✅ Remove item by ISBN and push onto removalHistory
+    public boolean removeItem(String isbn) {
+        for (int i = 0; i < catalogue.size(); i++) {
+            if (catalogue.get(i).getIsbn().equalsIgnoreCase(isbn)) {
+                LibraryItem removed = catalogue.remove(i);
+                removalHistory.add(removed);   // push onto history
+                System.out.println("Removed: " + removed);
+                return true;
+            }
+        }
+        System.out.println("Item not found: " + isbn);
+        return false;
+    }
+
+    // ✅ Undo last removal
+    public void undoRemove() {
+        if (removalHistory.isEmpty()) {
+            System.out.println("Nothing to undo — removal history is empty.");
+        } else {
+            LibraryItem lastRemoved = removalHistory.remove(removalHistory.size() - 1);
+            catalogue.add(lastRemoved);
+            System.out.println("Undo successful: restored " + lastRemoved);
+        }
+    }
+
+    public void printCatalogue() {
+        System.out.println("Catalogue:");
+        for (LibraryItem item : catalogue) {
+            System.out.println(item);
+        }
+    }
+
+    public void printRemovalHistory() {
+        System.out.println("Removal History:");
+        for (LibraryItem item : removalHistory) {
+            System.out.println(item);
+        }
+    }
+
+    public static void main(String[] args) {
+        LibraryCatalogue lib = new LibraryCatalogue();
+
+        lib.addItem(new LibraryItem("978-3-16-148410-0", "The Great Gatsby", 12.99));
+        lib.addItem(new LibraryItem("978-0-14-143960-0", "Tale of Two Cities", 9.50));
+        lib.addItem(new LibraryItem("978-0-7475-3269-9", "Harry Potter", 20.00));
+
+        System.out.println("Original catalogue:");
+        lib.printCatalogue();
+
+        // Remove one item
+        lib.removeItem("978-0-14-143960-0");
+        System.out.println("\nCatalogue after removal:");
+        lib.printCatalogue();
+
+        System.out.println("\nRemoval history:");
+        lib.printRemovalHistory();
+
+        // Undo last removal
+        System.out.println("\nAttempting undo...");
+        lib.undoRemove();
+
+        System.out.println("\nCatalogue after undo:");
+        lib.printCatalogue();
+
+        System.out.println("\nRemoval history after undo:");
+        lib.printRemovalHistory();
+    }
+}
