@@ -1,0 +1,57 @@
+import java.util.*;
+
+class LibraryItem {
+    private String isbn;
+    private String title;
+    private double price;
+
+    public LibraryItem(String isbn, String title, double price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.price = price;
+    }
+
+    public String getIsbn() { return isbn; }
+    public String getTitle() { return title; }
+    public double getPrice() { return price; }
+
+    @Override
+    public String toString() {
+        return "[" + isbn + " - " + title + " - $" + price + "]";
+    }
+}
+
+public class LibraryCatalogue {
+    private ArrayList<LibraryItem> catalogue = new ArrayList<>();
+
+    public void addItem(LibraryItem item) {
+        catalogue.add(item);
+    }
+
+    public void printCatalogue() {
+        for (LibraryItem item : catalogue) {
+            System.out.println(item);
+        }
+    }
+
+    public static void main(String[] args) {
+        LibraryCatalogue lib = new LibraryCatalogue();
+
+        lib.addItem(new LibraryItem("978-3-16-148410-0", "The Great Gatsby", 12.99));
+        lib.addItem(new LibraryItem("978-0-14-143960-0", "Tale of Two Cities", 9.50));
+        lib.addItem(new LibraryItem("978-0-7475-3269-9", "Harry Potter", 20.00));
+
+        System.out.println("Original catalogue:");
+        lib.printCatalogue();
+
+        // ✅ Sort by price ascending
+        Collections.sort(lib.catalogue, Comparator.comparingDouble(LibraryItem::getPrice));
+        System.out.println("\nSorted by price ascending:");
+        lib.printCatalogue();
+
+        // ✅ Sort alphabetically by title
+        Collections.sort(lib.catalogue, (a, b) -> a.getTitle().compareToIgnoreCase(b.getTitle()));
+        System.out.println("\nSorted alphabetically by title:");
+        lib.printCatalogue();
+    }
+}
