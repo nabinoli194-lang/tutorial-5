@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+class LibraryItem {
+    private String isbn, title;
+    public LibraryItem(String isbn, String title) {
+        this.isbn = isbn; this.title = title;
+    }
+    public String getIsbn() { return isbn; }
+    public String getTitle() { return title; }
+    public String toString() { return isbn + " - " + title; }
+}
+
+public class LibraryCatalogue {
+    private ArrayList<LibraryItem> catalogue = new ArrayList<>();
+
+    public void addItem(LibraryItem item) { catalogue.add(item); }
+    public boolean removeItem(String isbn) {
+        return catalogue.removeIf(i -> i.getIsbn().equalsIgnoreCase(isbn));
+    }
+    public ArrayList<LibraryItem> searchByTitle(String keyword) {
+        ArrayList<LibraryItem> results = new ArrayList<>();
+        for (LibraryItem i : catalogue)
+            if (i.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                results.add(i);
+        return results;
+    }
+
+    public static void main(String[] args) {
+        LibraryCatalogue lib = new LibraryCatalogue();
+        lib.addItem(new LibraryItem("111", "The Great Gatsby"));
+        lib.addItem(new LibraryItem("222", "Tale of Two Cities"));
+        lib.addItem(new LibraryItem("333", "Harry Potter"));
+
+        System.out.println("Search 'great': " + lib.searchByTitle("great"));
+        System.out.println("Removed? " + lib.removeItem("222"));
+        System.out.println("Catalogue: " + lib.catalogue);
+    }
+}
